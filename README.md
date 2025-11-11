@@ -1,79 +1,70 @@
-# 🌀 BitVMX-Z
+# ⚡ BitVMX-Z
 
-**Zero-Knowledge Extension of BitVMX — STARK-powered Rollup Prototype for Bitcoin and Rootstock**
+**Bitcoin-Native Zero-Knowledge Rollup using STARKs (Binius) and BitVMX Verification Principles**
 
 ---
 
 ## 🌍 Overview
 
-**BitVMX-Z** is a prototype demonstrating how **STARK proofs** and **BitVMX-style verification games** can power scalable Bitcoin applications.
-It explores a hybrid model where **Rootstock (RSK)** acts as an **execution layer**, while **Bitcoin** remains the **settlement and dispute layer**.
+**BitVMX-Z** is a Bitcoin-only zk-rollup prototype that integrates **Binius-accelerated STARK proofs** with **BitVMX-style challenge games**.
+It demonstrates how scalable computation and state validity can be proven and verified **directly on Bitcoin**, without sidechains, forks, or EVM dependencies.
 
-The system simulates a **zk-Rollup bridge** between Bitcoin and Rootstock using:
-
-* **STARK-style proofs** for validity
-* **Taproot-based commitments** for finality
-* **BitVMX challenge logic** for trustless verification
-
-This repository (`bitvmx-z`) implements a **Bridge Simulator** that visualizes transactions, proofs, and challenge-response flows between the two chains.
+BitVMX-Z serves as a **research and hackathon prototype** for exploring trustless Bitcoin scalability through **deterministic proof verification** and **Taproot-based commitments**.
 
 ---
 
-## 🧩 Prototype Components
+## 🧩 Key Components
 
-| Layer           | Description                                                          |
-| --------------- | -------------------------------------------------------------------- |
-| **Protocol**    | Mock STARK proof engine (Binius-accelerated) and zkVM runtime        |
-| **Backend**     | Rollup node simulator and challenge handler                          |
-| **Integration** | Bitcoin–Rootstock bridge logic (Taproot commitments + RSK contracts) |
-| **Frontend**    | React dashboard showing deposits, proofs, and challenges             |
-| **Design**      | Visual branding, diagrams, and investor-facing UI                    |
-| **Research**    | Notes on integrating Rootstock VM and BitVMX verification            |
+| Layer           | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
+| **Protocol**    | STARK prover and verifier (Binius), recursive proof compression |
+| **Backend**     | Rollup node simulator, batch builder, and proof aggregator      |
+| **Integration** | Taproot bridge simulator and dispute challenge logic            |
+| **Frontend**    | Proof explorer and challenge dashboard (React + Vite)           |
+| **Design**      | Clean UX for visualizing proofs and disputes                    |
+| **Research**    | BitVMX compatibility study and performance benchmarks           |
 
 ---
 
 ## 🚀 Architecture Overview
 
 ```
- ┌────────────────────────────┐
- │       Bitcoin Layer        │
- │ Taproot + BitVMX Scripts   │
- └───────────┬────────────────┘
-             │
-   Commitments (STARK Roots)
-             │
- ┌───────────┴────────────────┐
- │       BitVMX-Z Rollup      │
- │ - zkVM Runtime (Binius)    │
- │ - STARK Proof Simulator    │
- │ - Challenge Engine         │
- └───────────┬────────────────┘
-             │
-   REST + JSON-RPC APIs
-             │
- ┌───────────┴────────────────┐
- │ Rootstock Execution Layer  │
- │ RSK Smart Contracts + VM   │
- └───────────┬────────────────┘
-             │
- ┌───────────┴────────────────┐
- │   Web Portal & Explorer    │
- │   Proofs / Disputes / UX   │
- └────────────────────────────┘
+     ┌────────────────────────────┐
+     │       Bitcoin Layer        │
+     │  Taproot + BitVMX Scripts  │
+     └───────────┬────────────────┘
+                 │
+      STARK Root Commitments
+                 │
+     ┌───────────┴────────────────┐
+     │       BitVMX-Z Node        │
+     │ - Binius STARK Engine      │
+     │ - Proof Aggregator         │
+     │ - zkVM Runtime Simulator   │
+     └───────────┬────────────────┘
+                 │
+        REST + CLI + WebSocket APIs
+                 │
+     ┌───────────┴────────────────┐
+     │   Proof Explorer (Web)     │
+     │   - Rollup Batches         │
+     │   - STARK Proofs           │
+     │   - Challenges             │
+     └────────────────────────────┘
 ```
 
 ---
 
-## 🧪 Rootstock Prototype
+## 🧠 Prototype Concept
 
-The **BitVMX-Z Bridge Simulator** connects to a local **Rootstock test node** to emulate asset transfers:
+What BitVMX-Z does:
 
-1. Users deposit BTC → represented as wrapped tokens on RSK.
-2. Transactions are rolled up and “proven” using mock STARK data.
-3. Commitments (STARK roots) are published to Bitcoin via Taproot.
-4. Disputes are simulated using BitVMX interactive proofs.
+1. Simulates batched Bitcoin transactions in a rollup node.
+2. Generates **STARK proofs** of correct state transitions using **Binius**.
+3. Posts proof commitments (hashes) to **Bitcoin Signet via Taproot scripts**.
+4. Enables off-chain **challenge/response verification** using **BitVMX** challenge logic.
 
-This prototype demonstrates **how Bitcoin can host zk-verified rollups** while Rootstock executes complex smart-contract logic.
+The prototype validates the idea of **deterministic verification via cryptographic proofs** on Bitcoin.
 
 ---
 
@@ -81,53 +72,48 @@ This prototype demonstrates **how Bitcoin can host zk-verified rollups** while R
 
 ```
 bitvmx-z/
-├── protocol/      # STARK & zkVM simulator
-├── backend/       # Rollup node and challenge logic
-├── integration/   # Rootstock bridge and Taproot commitment templates
-├── frontend/      # React dashboard and explorer
-├── design/        # Branding and UX assets
-├── research/      # Rootstock + BitVMX integration notes
-└── .project/      # Kanban JSONs for GitHub Projects
+├── protocol/        # Binius STARK engine + zkVM runtime
+├── backend/         # Rollup simulator + aggregator
+├── integration/     # Taproot bridge simulator + challenge game
+├── frontend/        # Proof explorer dashboard (React + Vite)
+├── design/          # Branding, UX, dashboard layout
+├── research/        # Papers, benchmarks, BitVMX analysis
+└── .project/        # GitHub Project JSONs for Kanban
 ```
 
 ---
 
-## 🧠 Development Setup
+## ⚙️ Development Setup
 
 **Prerequisites**
 
 * Rust ≥ 1.75
 * Node.js ≥ 20
 * Bitcoin Core (Signet)
-* Rootstock node or Ganache fork
-* Docker (optional for orchestration)
+* Docker (optional for local testnet)
 
-**Run locally**
+**Build Instructions**
 
 ```bash
-git clone https://github.com/satoshisbrideai/bitvmx-z.git
+# Clone repository
+git clone https://github.com/fabohax/bitvmx-z.git
 cd bitvmx-z
+
+# Install dependencies
 cargo build
 npm install --prefix frontend
+
+# Run rollup node
 cargo run --bin bitvmx-z-node
 ```
 
 ---
 
-## 🧭 Contributing
+## 🧬 Research Focus
 
-1. Fork the repo
-2. Create a feature branch
-3. Submit PR with coverage
-4. Tag issues with `frontend`, `backend`, `integration`, `protocol`, or `research`
-
----
-
-## 🧱 Governance & Security
-
-* Branches: `main`, `dev`, `feature/*`
-* Audits: community-led before hackathon submission
-* Reports: `security@bitvmx.org`
+* Integrating **BitVMX dispute logic** with deterministic STARK proof roots.
+* Measuring **Binius prover performance** vs standard STARKs.
+* Evaluating Taproot commitment efficiency for rollup anchoring.
 
 ---
 
@@ -135,4 +121,6 @@ cargo run --bin bitvmx-z-node
 
 MIT License © 2025 Satoshi’s Bride AI Labs & FABOHAX
 
-⚡ **BitVMX-Z — Bringing STARKs and Rootstock to Bitcoin’s Base Layer**
+---
+
+> **BitVMX-Z — Scaling Bitcoin with deterministic zero-knowledge.**
