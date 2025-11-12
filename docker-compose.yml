@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - RUST_LOG=debug
+      - DATABASE_URL=sqlite:///app/data/bitvmx-z.db
+    networks:
+      - bitvmx-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - bitvmx-network
+    environment:
+      - VITE_API_URL=http://backend:3000
+
+networks:
+  bitvmx-network:
+    driver: bridge
+
+volumes:
+  data:

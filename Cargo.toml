@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "protocol",
+    "backend",
+    "integration"
+]
+resolver = "2"
