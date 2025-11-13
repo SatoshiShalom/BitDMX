@@ -29,6 +29,3 @@ group = "0.13"
 [dev-dependencies]
 criterion = "0.5"
 
-[[bench]]
-name = "stark_prover"
-harness = false
