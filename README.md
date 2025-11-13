@@ -1,163 +1,205 @@
-# 🌀 BitDMX Core  
-**Next-generation Bitcoin zk-Rollup powered by STARKs and BitVMX principles**
+# ⚡ BitVMX-Z
+
+**Bitcoin-Native Zero-Knowledge Rollup using STARKs (Binius) and BitVMX Verification Principles**
+
+[![Rust CI](https://github.com/fabohax/BitVMX-Z/actions/workflows/rust.yml/badge.svg)](https://github.com/fabohax/BitVMX-Z/actions/workflows/rust.yml)
+[![Frontend CI](https://github.com/fabohax/BitVMX-Z/actions/workflows/frontend.yml/badge.svg)](https://github.com/fabohax/BitVMX-Z/actions/workflows/frontend.yml)
+[![Docker CI](https://github.com/fabohax/BitVMX-Z/actions/workflows/docker.yml/badge.svg)](https://github.com/fabohax/BitVMX-Z/actions/workflows/docker.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
 ## 🌍 Overview
-BitDMX is a Bitcoin-native zero-knowledge rollup framework designed to extend Bitcoin’s scalability and programmability — **without relying on Ethereum**.  
-It leverages **STARK proofs** for transparent, quantum-resistant verification and builds its bridge directly on Bitcoin using **Taproot scripts and BitVMX-style challenge games**.
 
-This repository (`bitdmx-core`) contains the core runtime, proof engine, and integration layer for the BitDMX ecosystem.
+**BitVMX-Z** is a Bitcoin-only zk-rollup prototype that integrates **Binius-accelerated STARK proofs** with **BitVMX-style challenge games**.
+It demonstrates how scalable computation and state validity can be proven and verified **directly on Bitcoin**.
+
+BitVMX-Z serves as a **research and hackathon prototype** for exploring trustless Bitcoin scalability through **deterministic proof verification** and **Taproot-based commitments**.
+
+**[📖 Quick Start Guide](docs/QUICKSTART.md)** | **[🗺️ Roadmap](docs/ROADMAP.md)** | **[🤝 Contributing](CONTRIBUTING.md)**
 
 ---
 
 ## 🧩 Key Components
 
-| Layer | Description |
-|-------|--------------|
-| **Protocol** | STARK proof engine, zkVM runtime, recursive proof compression |
-| **Backend** | Rollup node, state tree management, proof aggregation daemon |
-| **Integration** | Taproot bridge templates, UTXO tracking, and dispute protocol |
-| **Frontend** | Web portal and explorer for proofs, transactions, and stats |
-| **Design** | Brand identity, UX flows, and investor dashboard visualization |
-| **Research** | Cryptographic analysis, performance benchmarking, and protocol review |
+| Layer           | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
+| **Protocol**    | STARK prover and verifier (Binius), recursive proof compression |
+| **Backend**     | Rollup node simulator, batch builder, and proof aggregator      |
+| **Integration** | Taproot bridge simulator and dispute challenge logic            |
+| **Frontend**    | Proof explorer and challenge dashboard (React + Vite)           |
+| **Design**      | Clean UX for visualizing proofs and disputes                    |
+| **Research**    | BitVMX compatibility study and performance benchmarks           |
 
 ---
 
 ## 🚀 Architecture Overview
 
+```
      ┌────────────────────────────┐
-     │      Bitcoin Layer         │
+     │       Bitcoin Layer        │
      │  Taproot + BitVMX Scripts  │
      └───────────┬────────────────┘
                  │
-       Commitments (STARK Roots)
+      STARK Root Commitments
                  │
      ┌───────────┴────────────────┐
-     │       BitDMX Rollup        │
-     │ - zkVM Runtime (Binius)    │
-     │ - Recursive STARKs         │
+     │       BitVMX-Z Node        │
+     │ - Binius STARK Engine      │
      │ - Proof Aggregator         │
+     │ - zkVM Runtime Simulator   │
      └───────────┬────────────────┘
                  │
-       REST + JSON-RPC APIs
+        REST + CLI + WebSocket APIs
                  │
      ┌───────────┴────────────────┐
-     │  Web Portal + Explorer     │
-     │  User, Dev, & Investor UI  │
+     │   Proof Explorer (Web)     │
+     │   - Rollup Batches         │
+     │   - STARK Proofs           │
+     │   - Challenges             │
      └────────────────────────────┘
+```
+
+---
+
+## 🧠 Prototype Concept
+
+What BitVMX-Z does:
+
+1. Simulates batched Bitcoin transactions in a rollup node.
+2. Generates **STARK proofs** of correct state transitions using **Binius**.
+3. Posts proof commitments (hashes) to **Bitcoin Signet via Taproot scripts**.
+4. Enables off-chain **challenge/response verification** inspired by **BitVMX**.
+
+The prototype validates the idea of **deterministic verification via cryptographic proofs** on Bitcoin.
 
 ---
 
 ## 📦 Repository Structure
-bitdmx-core/
-├── protocol/ # STARK engine and zkVM runtime
-├── backend/ # Rollup node and aggregator
-├── integration/ # Taproot bridge modules
-├── frontend/ # React web portal
-├── design/ # UI/UX, brand assets
-├── research/ # Papers, benchmarks, metrics
-└── .project/ # GitHub Project JSONs for Kanban
+
+```
+bitvmx-z/
+├── protocol/        # Binius STARK engine + zkVM runtime
+├── backend/         # Rollup simulator + aggregator
+├── integration/     # Taproot bridge simulator + challenge game
+├── frontend/        # Proof explorer dashboard (React + Vite)
+├── design/          # Branding, UX, dashboard layout
+├── research/        # Papers, benchmarks, BitVMX analysis
+└── .project/        # GitHub Project JSONs for Kanban
+```
+
+## ⚙️ Development Setup
+
+**Prerequisites**
+
+* Rust ≥ 1.75
+* Node.js ≥ 20
+* Docker & Docker Compose
+* Bitcoin Core (Signet) - optional for testing
+
+### 🐳 Quick Start with Docker
+
+```bash
+# Clone repository
+git clone https://github.com/fabohax/bitvmx-z.git
+cd bitvmx-z
+
+# Start all services
+./scripts/start.sh
+
+# Access:
+# Backend API: http://localhost:3000
+# Frontend: http://localhost:5173
+
+# Stop services
+./scripts/stop.sh
+```
+
+### 💻 Local Development
+
+```bash
+# Build everything
+./scripts/build.sh
+
+# Run in development mode (auto-reload)
+./scripts/dev.sh
+
+# Run tests
+./scripts/test.sh
+
+# Clean build artifacts
+./scripts/clean.sh
+```
+
+### Manual Setup
+
+```bash
+# Build Rust workspace
+cargo build --release
+
+# Install frontend dependencies
+cd frontend
+npm install
+npm run dev
+
+# In another terminal, run backend
+cargo run --bin bitvmx-z-node
+```
 
 ---
 
-## 🗂️ Project Management
+## 🧪 Testnet Access
 
-We use **GitHub Projects (Kanban)** for cross-team coordination.  
-Each department maintains its own task board using JSON import files stored under `.project/`.
+**Network:** Z-Testnet 0.1
+**Bridge (Taproot):** tb1qd... (Signet)
+**Explorer:** [https://bitvmx-explorer.com](https://bitvmx-explorer.com)
 
-**Columns:**  
-`Backlog → In Progress → Review → Done → Research`
+---
 
-**Departments:**  
-`frontend`, `backend`, `integration`, `protocol`, `design`, `cto`, `research`
+## 📚 Documentation
 
-You can import the boards with:
-```bash
-gh project item-add --project "BitDMX Core" --body "$(cat .project/frontend.json)"
+- [Quick Start](docs/QUICKSTART.md) - Get running in 5 minutes
+- [Docker Setup](docs/DOCKER.md) - Complete Docker guide
+- [Scripts Reference](docs/SCRIPTS.md) - Helper script documentation
+- [CI/CD](docs/CI.md) - GitHub Actions workflows
+- [Roadmap](docs/ROADMAP.md) - Project timeline and milestones
+- [Contributing](CONTRIBUTING.md) - Contribution guidelines
+- [Security](SECURITY.md) - Security policy and reporting
 
-| Month     | Focus          | Deliverables                            |
-| --------- | -------------- | --------------------------------------- |
-| **1**     | Foundation     | Repo setup, AIR framework, branding     |
-| **2**     | STARK Engine   | Prover prototype, zkVM spec             |
-| **3**     | Bridge Alpha   | Taproot deposit contracts, UTXO tracker |
-| **4–6**   | zkVM + Testnet | Recursive STARKs, frontend explorer     |
-| **7–8**   | Optimization   | Performance tuning, audit planning      |
-| **9–10**  | SDK + APIs     | Developer tools, verifier incentives    |
-| **11–12** | Mainnet Launch | Public release, investor dashboard      |
-🧠 Development Setup
-Prerequisites
+---
+explorer.bitvmx.org
+## 🧭 Contributing
 
-Rust ≥ 1.75
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-Node.js ≥ 20
+Quick start:
+1. Fork the repo
+2. Create a feature branch
+3. Submit a PR with tests and lint checks
+4. Tag issues by domain: `protocol`, `backend`, `integration`, `frontend`, `design`, or `research`
 
-Bitcoin Core (Signet)
+---
 
-Docker (optional for local orchestration)
+## 🔒 Governance & Security
 
-**Build Instructions
-**
-# Clone repository
-git clone https://github.com/satoshisbrideai/bitdmx-core.git
-cd bitdmx-core
+* Branches: `main` (stable), `dev` (integration), `feature/*` (experimental)
+* Audits: scheduled for Month 8 milestone
+* Security contact: **[security@bitvmx.org](mailto:security@bitvmx.org)**
 
-# Install dependencies
-cargo build
-npm install --prefix frontend
+---
 
-# Run local node
-cargo run --bin bitdmx-node
+## 🧬 Research Focus
 
-🧪 Testnet Access
+* Integrating **BitVMX dispute logic** with deterministic STARK proof roots.
+* Measuring **Binius prover performance** vs standard STARKs.
+* Evaluating Taproot commitment efficiency for rollup anchoring.
 
-Network: DMX Testnet 0.1
+---
 
-Bridge: tb1qd... (Taproot Signet address)
-
-Explorer: https://explorer.bitdmx.org
-
-🧭 Contributing
-
-Fork the repo
-
-Create a feature branch
-
-Submit a PR for review
-
-Include test coverage and lint checks
-
-Tag your issues with:
-
-frontend, backend, protocol, integration, design, cto, or research
-
-👁️‍🗨️ Governance & Security
-
-Branching model: main (stable), dev (integration), feature/* (experimental)
-
-Audits: Coordinated by CTO and external partners (Month 8 milestone)
-
-Security reports: security@bitdmx.org
-
-📰 Investor & Community Updates
-
-Monthly investor newsletters summarize milestone progress:
-
-Proof system maturity (protocol)
-
-Rollup node reliability (backend)
-
-Bridge audit readiness (integration)
-
-Design and branding updates (UX)
-
-Financial runway and contributors (management)
-
-Subscribe at bitdmx.org/newsletter
-.
-
-📜 License
+## 📜 License
 
 MIT License © 2025 Satoshi’s Bride AI Labs
 
-⚡ BitDMX — Scaling Bitcoin with transparent zero-knowledge.
+---
+
+> **BitVMX-Z — Scaling Bitcoin with deterministic zero-knowledge.**
