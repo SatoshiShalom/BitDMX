@@ -1,0 +1,31 @@
+# Python virtual environment
+.venv/
+
+# Cairo compilation artifacts
+cairo/*.json
+cairo/__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+
+# Log files
+*.log
+
+# Test outputs
+*.pytest_cache/
+
+# VSCode settings
+.vscode/
+
+# Misc
+*.pyc
+__pycache__/
+
+# Ignore environment and build files
+.env
+build/
+dist/
